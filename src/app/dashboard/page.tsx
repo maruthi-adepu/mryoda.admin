@@ -62,13 +62,12 @@ const page = () => {
                                     </Typography>
                                 </CardContent>
                                 <CardActions sx={{ marginTop: -3, padding: 0, marginBottom: 1 }}>
-                                    <Button style={{ fontWeight: 400, color: '#000000CC', fontSize: '13px', marginLeft: '0px', paddingLeft: "0px" }}>{card.percentage}</Button>
+                                    <Button sx={{ fontWeight: 400, color: '#000000CC', fontSize: '13px', marginLeft: '0px', paddingLeft: "0px" }}>{card.percentage}</Button>
                                 </CardActions>
                             </Card>
                         </Grid>
                     ))}
                 </Grid>
-
             </section>
         </>
     )

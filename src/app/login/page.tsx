@@ -1,4 +1,4 @@
-import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField, Typography } from "@mui/material";
+import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, Grid2, TextField, Typography } from "@mui/material";
 import React from "react";
 import { Box } from "@mui/material";
 
@@ -74,7 +74,7 @@ const Login = () => {
             </FormControl>
 
             <FormControl>
-              <FormLabel sx={{ fontWeight: 700, color: '#000000CC', fontSize: '13px', lineHeight: '16px', marginBottom: 1 }}>Username</FormLabel>
+              <FormLabel sx={{ fontWeight: 700, color: '#000000CC', fontSize: '13px', lineHeight: '16px', marginBottom: 1 }}>Password</FormLabel>
               <TextField sx={{ borderRadius: '4px', width: '512px', height: '36px' }} placeholder="Enter your password" />
             </FormControl>
 
@@ -87,6 +87,16 @@ const Login = () => {
             </Box>
             <Button sx={{ width: '512px', background: '#03C136', color: '#FFFFFF', fontWeight: 700, fontSize: '15px', lineHeight: '20px', borderRadius: '11px', textTransform: 'capitalize', paddingY: 2, paddingX: 3 }}>Login</Button>
           </Box>
+        </Box>
+        <Box sx={{display:'flex',justifyContent:'space-between',marginX:'80px'}}>
+                <Typography sx={{color:'#828282',fontSize:'18px'}} >© 2024 Mr. Yoda. All rights reserved.</Typography>
+              <Box sx={{display:'flex',gap:'50px'}}>
+                {['Security','Legal','Privacy'].map((names,index)=>(
+                  <Grid item key={index} lg={3}>
+                    <Typography variant="body1" sx={{color:'#828282',fontSize:'18px'}}>{names}</Typography>
+                  </Grid>
+                ))}
+              </Box>
         </Box>
       </Box>
     </section>

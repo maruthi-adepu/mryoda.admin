@@ -1,11 +1,11 @@
 'use client'
-import { Box, Button, Container, Divider, Grid, TextField, Typography } from '@mui/material';
+import { Avatar, AvatarGroup, Box, Button, Container, Divider, Grid, TextField, Typography } from '@mui/material';
 import React from 'react'
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { useDispatch, useSelector } from 'react-redux';
+import topbarHooks from '@/hooks/topbarHooks';
+import { RootState } from '@reduxjs/toolkit/query';
 
 
 const menuItems = [
@@ -24,19 +24,15 @@ const menuItems = [
 
 const TopBar = () => {
 
-    const [age, setAge] = React.useState('');
-
-    const handleChange = (event: SelectChangeEvent) => {
-        setAge(event.target.value as string);
-    };
-
+    const { title } = useSelector((state: RootState) => state.topbar);
+    const { handleSelectTitile } = topbarHooks();
 
 
     return (
         <section>
             <Box>
                 <Box sx={{ background: "#0D382B", height: "68px", display: "flex", justifyContent: "space-between" }}>
-                    <Container maxWidth="xl" sx={{ display: "flex", justifyContent:"space-between", alignItems: "center", height: "68px", gap: 3 }}>
+                    <Container maxWidth="xl" sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", height: "68px", gap: 3 }}>
                         <Box sx={{ display: "flex", justifyItems: "start", alignItems: "center", height: "68px", gap: 3 }}>
                             <Typography>
                                 <svg width="94" height="20" viewBox="0 0 94 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -59,7 +55,7 @@ const TopBar = () => {
                                     <path d="M17.3645 9.08765C16.5105 10.6421 15.0696 12.1479 12.7046 13.2019C12.7046 13.2019 12.9367 11.4393 12.3936 9.44637C12.7878 9.47295 13.1864 9.48623 13.5849 9.48623C14.8813 9.48623 16.1426 9.34894 17.3601 9.08765H17.3645Z" fill="#03C136" />
                                 </svg>
                             </Typography>
-                            <Typography sx={{ color: "#E7F3EA", fontWeight:700, fontSize:"12px" }}>India's Biggest Healthcare Platform</Typography>
+                            <Typography sx={{ color: "#E7F3EA", fontWeight: 700, fontSize: "12px" }}>India's Biggest Healthcare Platform</Typography>
                         </Box>
                         <Box sx={{ display: "flex", alignItems: "center", height: "68px", gap: 2 }}>
                             <TextField
@@ -92,7 +88,7 @@ const TopBar = () => {
                                         </clipPath>
                                     </defs>
                                 </svg>
-                                <Box sx={{ background: "#C40D0D", borderRadius: "50%", width: "24px", height: "24px", position: "absolute", top: 1, right: -8, fontSize: "11px", fontWeight: 700, lineHeight: "20px", color: "#FFFFFF", textAlign: "center", display:"flex", alignItems:"center", justifyContent:"center" }}>287</Box>
+                                <Box sx={{ background: "#C40D0D", borderRadius: "50%", width: "24px", height: "24px", position: "absolute", top: 1, right: -8, fontSize: "11px", fontWeight: 700, lineHeight: "20px", color: "#FFFFFF", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center" }}>287</Box>
                             </Box>
                         </Box>
                     </Container>
@@ -101,70 +97,97 @@ const TopBar = () => {
 
 
 
-           <Container maxWidth="xl">
-           <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 7, }}>
-                    <Box>
-                        <Box sx={{ width: "409px", height: "40px", marginTop: 1, marginBottom: 3 }}>
-                            <Typography id="demo-simple-select-label" sx={{ fontWeight: 700, lineHeight: "40px", fontSize: "34px", width: "581px" }}>Receptionist Dashboard</Typography>
+            <Container maxWidth="xl">
+                <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 7, }}>
+                        <Box>
+                            <Box sx={{ width: "450px", height: "40px", marginTop: 1, marginBottom: 3, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                                <Typography id="demo-simple-select-label" sx={{ fontWeight: 700, lineHeight: "40px", fontSize: "34px", width: "581px" }}>Receptionist Dashboard</Typography>
+                                <Typography sx={{ fontSize: 10 }}><ArrowDropDownIcon sx={{ fontSize: "40px" }} /></Typography>
+
+                            </Box>
 
                         </Box>
-
+                        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                            <Typography sx={{ background: "#0DC44A", width: "6px", height: "6px", borderRadius: "50%" }}></Typography>
+                            <Typography sx={{ fontWeight: 400, fontSize: "15px", lineHeight: "20px", color: "#000000CC", textAlign: "center" }}>Active</Typography>
+                        </Box>
                     </Box>
-                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                        <Typography sx={{ background: "#0DC44A", width: "6px", height: "6px", borderRadius: "50%" }}></Typography>
-                        <Typography sx={{ fontWeight: 400, fontSize: "15px", lineHeight: "20px", color: "#000000CC", textAlign: "center" }}>Active</Typography>
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <Button sx={{ width: "155px", height: "36px", borderRadius: "11px", background: "#B8B8B8", color: "#5F5F5F", fontWeight: 400, fontSize: "15px", lineHeight: "20px", textTransform: "capitalize", display: "flex", gap: 1 }}>
+                            <Typography><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clipPath="url(#clip0_17_1450)">
+                                    <path d="M13 5.625H11.8738V3.05531C11.8738 1.23275 10.3598 -0.25 8.49884 -0.25C6.63788 -0.25 5.12384 1.23275 5.12384 3.05531V5.625H4C2.96613 5.625 2.125 6.46613 2.125 7.5V13.875C2.125 14.9089 2.96613 15.75 4 15.75H13C14.0339 15.75 14.875 14.9089 14.875 13.875V7.5C14.875 6.46613 14.0339 5.625 13 5.625ZM6.37384 3.05531C6.37384 1.922 7.32713 1 8.49884 1C9.67056 1 10.6238 1.922 10.6238 3.05531V5.625H6.37384V3.05531ZM13.625 13.875C13.625 14.2196 13.3446 14.5 13 14.5H4C3.65538 14.5 3.375 14.2196 3.375 13.875V7.5C3.375 7.15538 3.65538 6.875 4 6.875H13C13.3446 6.875 13.625 7.15538 13.625 7.5V13.875Z" fill="#5F5F5F" />
+                                    <path d="M8.5 8.6875C7.86141 8.6875 7.34375 9.20516 7.34375 9.84375C7.34375 10.2515 7.555 10.6097 7.87384 10.8156V12.1875C7.87384 12.5327 8.15366 12.8125 8.49884 12.8125C8.844 12.8125 9.12384 12.5327 9.12384 12.1875V10.817C9.44397 10.6114 9.65625 10.2525 9.65625 9.84375C9.65625 9.20516 9.13859 8.6875 8.5 8.6875Z" fill="#5F5F5F" />
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_17_1450">
+                                        <rect width="16" height="16" fill="white" />
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                            </Typography>
+                            <Typography>Add New User</Typography>
+                        </Button>
+                        <Button>
+                            <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clipPath="url(#clip0_17_1458)">
+                                    <path d="M29.4011 19.9406L28.4027 19.1187C27.7188 18.5556 27.72 17.5092 28.4027 16.9473L29.4011 16.1254C30.1116 15.5405 30.2934 14.5374 29.8332 13.7403L27.8618 10.3257C27.4015 9.5286 26.4418 9.18454 25.5802 9.50732L24.3692 9.96102C23.5397 10.2717 22.634 9.74769 22.4887 8.87535L22.2761 7.59969C22.1248 6.69191 21.347 6.03299 20.4266 6.03299H16.4837C15.5634 6.03299 14.7855 6.69191 14.6342 7.59974L14.4216 8.87535C14.276 9.74924 13.3691 10.2712 12.5412 9.96107L11.3302 9.50732C10.4685 9.18454 9.50884 9.52865 9.04858 10.3257L7.07716 13.7403C6.61698 14.5373 6.79867 15.5404 7.50925 16.1254L8.50764 16.9473C9.19164 17.5103 9.19028 18.5567 8.50764 19.1186L7.5092 19.9405C6.79867 20.5255 6.61694 21.5286 7.07711 22.3256L9.04858 25.7403C9.5088 26.5373 10.4682 26.8814 11.3302 26.5586L12.5411 26.1049C13.3708 25.7941 14.2762 26.3185 14.4216 27.1906L14.6342 28.4661C14.7855 29.3741 15.5634 30.033 16.4837 30.033H20.4266C21.3469 30.033 22.1248 29.3741 22.276 28.4662L22.4886 27.1907C22.6342 26.317 23.541 25.7947 24.3691 26.105L25.5802 26.5587C26.4421 26.8815 27.4015 26.5374 27.8618 25.7403L29.8333 22.3256C30.2934 21.5286 30.1116 20.5255 29.4011 19.9406ZM26.238 24.8028L25.027 24.3491C23.0911 23.6239 20.9784 24.8474 20.6392 26.8824L20.4266 28.158H16.4837L16.2711 26.8824C15.9313 24.8435 13.8155 23.6253 11.8834 24.3491L10.6724 24.8028L8.70095 21.3882L9.69934 20.5663C11.2954 19.2523 11.2921 16.8109 9.69934 15.4997L8.70095 14.6778L10.6724 11.2632L11.8834 11.7169C13.8193 12.442 15.932 11.2186 16.2711 9.1836L16.4837 7.90799H20.4266L20.6392 9.1836C20.979 11.2228 23.0949 12.4405 25.0269 11.7169L26.2379 11.2632L28.2098 14.6773C28.2098 14.6773 28.2097 14.6775 28.2093 14.6778L27.211 15.4997C25.615 16.8135 25.6181 19.255 27.2109 20.5662L28.2093 21.3881L26.238 24.8028ZM18.4552 13.408C15.9049 13.408 13.8302 15.4828 13.8302 18.033C13.8302 20.5832 15.9049 22.658 18.4552 22.658C21.0054 22.658 23.0802 20.5832 23.0802 18.033C23.0802 15.4828 21.0054 13.408 18.4552 13.408ZM18.4552 20.783C16.9388 20.783 15.7052 19.5493 15.7052 18.033C15.7052 16.5166 16.9388 15.283 18.4552 15.283C19.9715 15.283 21.2052 16.5166 21.2052 18.033C21.2052 19.5493 19.9715 20.783 18.4552 20.783Z" fill="black" />
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_17_1458">
+                                        <rect width="24" height="24" fill="white" transform="translate(6.45508 6.03299)" />
+                                    </clipPath>
+                                </defs>
+                            </svg>
+
+                        </Button>
                     </Box>
                 </Box>
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <Button sx={{ width: "155px", height: "36px", borderRadius: "11px", background: "#B8B8B8", color: "#5F5F5F", fontWeight: 400, fontSize: "15px", lineHeight: "20px", textTransform: "capitalize", display: "flex", gap: 1 }}>
-                        <Typography><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g clipPath="url(#clip0_17_1450)">
-                                <path d="M13 5.625H11.8738V3.05531C11.8738 1.23275 10.3598 -0.25 8.49884 -0.25C6.63788 -0.25 5.12384 1.23275 5.12384 3.05531V5.625H4C2.96613 5.625 2.125 6.46613 2.125 7.5V13.875C2.125 14.9089 2.96613 15.75 4 15.75H13C14.0339 15.75 14.875 14.9089 14.875 13.875V7.5C14.875 6.46613 14.0339 5.625 13 5.625ZM6.37384 3.05531C6.37384 1.922 7.32713 1 8.49884 1C9.67056 1 10.6238 1.922 10.6238 3.05531V5.625H6.37384V3.05531ZM13.625 13.875C13.625 14.2196 13.3446 14.5 13 14.5H4C3.65538 14.5 3.375 14.2196 3.375 13.875V7.5C3.375 7.15538 3.65538 6.875 4 6.875H13C13.3446 6.875 13.625 7.15538 13.625 7.5V13.875Z" fill="#5F5F5F" />
-                                <path d="M8.5 8.6875C7.86141 8.6875 7.34375 9.20516 7.34375 9.84375C7.34375 10.2515 7.555 10.6097 7.87384 10.8156V12.1875C7.87384 12.5327 8.15366 12.8125 8.49884 12.8125C8.844 12.8125 9.12384 12.5327 9.12384 12.1875V10.817C9.44397 10.6114 9.65625 10.2525 9.65625 9.84375C9.65625 9.20516 9.13859 8.6875 8.5 8.6875Z" fill="#5F5F5F" />
-                            </g>
-                            <defs>
-                                <clipPath id="clip0_17_1450">
-                                    <rect width="16" height="16" fill="white" />
-                                </clipPath>
-                            </defs>
-                        </svg>
+
+
+
+                <Box>
+                    <Box display="flex" alignItems="center" paddingBottom={3} >
+                        <AvatarGroup max={4} spacing="small">
+                            <Avatar alt="Sai" src="/path/to/sai.jpg" sx={{ width: "32px", height: "32px" }} />
+                            <Avatar alt="Ramya" src="/path/to/ramya.jpg" sx={{ width: "32px", height: "32px" }} />
+                            <Avatar alt="Nagendra" src="/path/to/nagendra.jpg" sx={{ width: "32px", height: "32px" }} />
+                            <Avatar alt="User 4" src="/path/to/user4.jpg" sx={{ width: "32px", height: "32px" }} />
+                            {/* <Avatar alt="User 5" src="/path/to/user5.jpg" sx={{width:"32px", height:"32px"}}/> */}
+                        </AvatarGroup>
+                        <Typography variant="body2" ml={1} sx={{ color: "#00000066", fontWeight: 400, fontSize: "15px" }}>
+                            Sai, Ramya, Nagendra +2 others
                         </Typography>
-                        <Typography>Add New User</Typography>
-                    </Button>
-                    <Button>
-                        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g clipPath="url(#clip0_17_1458)">
-                                <path d="M29.4011 19.9406L28.4027 19.1187C27.7188 18.5556 27.72 17.5092 28.4027 16.9473L29.4011 16.1254C30.1116 15.5405 30.2934 14.5374 29.8332 13.7403L27.8618 10.3257C27.4015 9.5286 26.4418 9.18454 25.5802 9.50732L24.3692 9.96102C23.5397 10.2717 22.634 9.74769 22.4887 8.87535L22.2761 7.59969C22.1248 6.69191 21.347 6.03299 20.4266 6.03299H16.4837C15.5634 6.03299 14.7855 6.69191 14.6342 7.59974L14.4216 8.87535C14.276 9.74924 13.3691 10.2712 12.5412 9.96107L11.3302 9.50732C10.4685 9.18454 9.50884 9.52865 9.04858 10.3257L7.07716 13.7403C6.61698 14.5373 6.79867 15.5404 7.50925 16.1254L8.50764 16.9473C9.19164 17.5103 9.19028 18.5567 8.50764 19.1186L7.5092 19.9405C6.79867 20.5255 6.61694 21.5286 7.07711 22.3256L9.04858 25.7403C9.5088 26.5373 10.4682 26.8814 11.3302 26.5586L12.5411 26.1049C13.3708 25.7941 14.2762 26.3185 14.4216 27.1906L14.6342 28.4661C14.7855 29.3741 15.5634 30.033 16.4837 30.033H20.4266C21.3469 30.033 22.1248 29.3741 22.276 28.4662L22.4886 27.1907C22.6342 26.317 23.541 25.7947 24.3691 26.105L25.5802 26.5587C26.4421 26.8815 27.4015 26.5374 27.8618 25.7403L29.8333 22.3256C30.2934 21.5286 30.1116 20.5255 29.4011 19.9406ZM26.238 24.8028L25.027 24.3491C23.0911 23.6239 20.9784 24.8474 20.6392 26.8824L20.4266 28.158H16.4837L16.2711 26.8824C15.9313 24.8435 13.8155 23.6253 11.8834 24.3491L10.6724 24.8028L8.70095 21.3882L9.69934 20.5663C11.2954 19.2523 11.2921 16.8109 9.69934 15.4997L8.70095 14.6778L10.6724 11.2632L11.8834 11.7169C13.8193 12.442 15.932 11.2186 16.2711 9.1836L16.4837 7.90799H20.4266L20.6392 9.1836C20.979 11.2228 23.0949 12.4405 25.0269 11.7169L26.2379 11.2632L28.2098 14.6773C28.2098 14.6773 28.2097 14.6775 28.2093 14.6778L27.211 15.4997C25.615 16.8135 25.6181 19.255 27.2109 20.5662L28.2093 21.3881L26.238 24.8028ZM18.4552 13.408C15.9049 13.408 13.8302 15.4828 13.8302 18.033C13.8302 20.5832 15.9049 22.658 18.4552 22.658C21.0054 22.658 23.0802 20.5832 23.0802 18.033C23.0802 15.4828 21.0054 13.408 18.4552 13.408ZM18.4552 20.783C16.9388 20.783 15.7052 19.5493 15.7052 18.033C15.7052 16.5166 16.9388 15.283 18.4552 15.283C19.9715 15.283 21.2052 16.5166 21.2052 18.033C21.2052 19.5493 19.9715 20.783 18.4552 20.783Z" fill="black" />
-                            </g>
-                            <defs>
-                                <clipPath id="clip0_17_1458">
-                                    <rect width="24" height="24" fill="white" transform="translate(6.45508 6.03299)" />
-                                </clipPath>
-                            </defs>
-                        </svg>
-
-                    </Button>
+                    </Box>
                 </Box>
-            </Box>
 
-
-
-            <Box></Box>
-
-            <Box>
-                <Grid container spacing={5} justifyContent="start">
-                    {menuItems?.map((item, index) => (
-                        <Grid item key={index}>
-                            <Button sx={{ color: "#000000CC", fontWeight: 400, fontSize: "15px", lineHeight: "20px", textTransform: "capitalize" }}>
-                                {item}
-                            </Button>
-                        </Grid>
-                    ))}
-                </Grid>
-            </Box>
-            <Divider sx={{ height: "2px", color: "#00000033" }} />
-           </Container>
+                <Box>
+                    <Grid container spacing={5} justifyContent="start">
+                        {menuItems?.map((item, index) => (
+                            <Grid item key={index}>
+                                <Button onClick={() => { handleSelectTitile(item) }} sx={{
+                                    fontWeight: 400,
+                                    fontSize: "15px",
+                                    lineHeight: "20px",
+                                    textTransform: "capitalize",
+                                    background: item === title ? "#03C136" : "transparent", 
+                                    color:item === title ? "#FFFFFF" : "#000000CC",
+                                    borderTopLeftRadius: "12px",
+                                    borderTopRightRadius:"12px", 
+                                    "&:hover": {
+                                        background: item === title ? "#03C136" : "rgba(3, 193, 54, 0.1)", 
+                                        color:item === title ? "#FFFFFF" : "#000000CC"
+                                    }
+                                }}>
+                                    {item}
+                                </Button>
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Box>
+                <Divider sx={{ height: "2px", color: "#00000033" }} />
+            </Container>
         </section>
     )
 }

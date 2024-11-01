@@ -9,28 +9,12 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import TopBar from '@/components/topbar';
 
 const cardData = [
-    {
-        title: 'Active Members',
-        value: '1,234',
-        percentage: '+5%',
-        color: '#F9F4A0',
-    },
-    {
-        title: 'Expiring Memberships',
-        value: '56',
-        percentage: '+2%',
-        color: '#B0E0E4',
-    },
-    {
-        title: 'Transactions',
-        value: '789',
-        percentage: '+8%',
-        color: '#FCDDE3',
-    },
+    { title: 'Active Members', value: '1,234', percentage: '+5%', color: '#F9F4A0'},
+    { title: 'Expiring Memberships', value: '56', percentage: '+2%', color: '#B0E0E4'},
+    { title: 'Transactions', value: '789', percentage: '+8%', color: '#FCDDE3'},
 ];
 
 const page = () => {
-
 
     return (
         <>
@@ -45,10 +29,8 @@ const page = () => {
                     >
                         Key Statistics
                     </Typography>
-
-
                     <Grid container spacing={2} sx={{  justifyContent: 'center' }}>
-                    {cardData.map((card, index) => (
+                    {cardData?.map((card, index) => (
                         <Grid item xs={12} sm={6} md={3} lg={4} key={index} sx={{ padding: '0 8px', paddingLeft:0 }}>
                             <Card sx={{ maxWidth: 434, maxHeight: 148, backgroundColor: card.color, boxShadow: 'none', border: "#FFFFFF", borderRadius: "8px", paddingLeft:0, marginBottom:2 }}>
                                 <CardContent>

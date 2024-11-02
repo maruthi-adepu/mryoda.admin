@@ -1,11 +1,11 @@
 'use client'
-import { Avatar, AvatarGroup, Box, Button, Container, Divider, Grid, TextField, Typography } from '@mui/material';
+import { Avatar, AvatarGroup, Box, Button, Container, Divider, Grid, InputAdornment, TextField, Typography } from '@mui/material';
 import React from 'react'
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useDispatch, useSelector } from 'react-redux';
 import topbarHooks from '@/hooks/topbarHooks';
-import { RootState } from '@reduxjs/toolkit/query';
+import { RootState } from '@/store/store';
 
 
 const menuItems = [
@@ -62,6 +62,20 @@ const TopBar = () => {
                                 variant="outlined"
                                 placeholder="Search..."
                                 InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <g clipPath="url(#clip0_48_4075)">
+                                                    <path d="M11.9086 -0.25C7.16011 -0.25 3.31727 3.59284 3.31727 8.34137C3.31727 10.3738 4.01875 12.2982 5.30636 13.8391L0.5 18.6455L1.60454 19.75L6.4109 14.9436C7.95176 16.2312 9.87619 16.9327 11.9086 16.9327C16.6572 16.9327 20.5 13.0899 20.5 8.34137C20.5 3.59284 16.6572 -0.25 11.9086 -0.25ZM11.9086 15.3707C8.03268 15.3707 4.87933 12.2173 4.87933 8.34137C4.87933 4.46541 8.03268 1.31207 11.9086 1.31207C15.7846 1.31207 18.9379 4.46541 18.9379 8.34137C18.9379 12.2173 15.7846 15.3707 11.9086 15.3707Z" fill="black" />
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_48_4075">
+                                                        <rect width="20" height="20" fill="white" />
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
+                                        </InputAdornment>
+                                    ),
                                     style: {
                                         width: '400px',
                                         height: '36px',
@@ -171,13 +185,13 @@ const TopBar = () => {
                                     fontSize: "15px",
                                     lineHeight: "20px",
                                     textTransform: "capitalize",
-                                    background: item === title ? "#03C136" : "transparent", 
-                                    color:item === title ? "#FFFFFF" : "#000000CC",
+                                    background: item === title ? "#03C136" : "transparent",
+                                    color: item === title ? "#FFFFFF" : "#000000CC",
                                     borderTopLeftRadius: "12px",
-                                    borderTopRightRadius:"12px", 
+                                    borderTopRightRadius: "12px",
                                     "&:hover": {
-                                        background: item === title ? "#03C136" : "rgba(3, 193, 54, 0.1)", 
-                                        color:item === title ? "#FFFFFF" : "#000000CC"
+                                        background: item === title ? "#03C136" : "rgba(3, 193, 54, 0.1)",
+                                        color: item === title ? "#FFFFFF" : "#000000CC"
                                     }
                                 }}>
                                     {item}

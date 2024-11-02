@@ -6,7 +6,7 @@ interface TopbarState {
 }
 
 const initialState: TopbarState = {
-  title: "", 
+  title: "Dashboard", 
 };
 
 const topbarSlice = createSlice({

@@ -1,28 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
 import topbarReducer from '../store/slices/topbarSlice';
-
-const persistConfig = {
-  key: 'topbar',
-  storage,
-};
-
-const persistedTopbarReducer = persistReducer(persistConfig, topbarReducer);
+import { viewAllMembersDetails } from '@/api/viewAllMember/viewAllMember';
 
 const store = configureStore({
   reducer: {
-    topbar: persistedTopbarReducer,
+    topbar: topbarReducer,
+    [viewAllMembersDetails.reducerPath]: viewAllMembersDetails.reducer,
   },
-  middleware: (getDefaultMiddleware) => 
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: ['persist/REHYDRATE', 'persist/PERSIST'],
-        ignoredPaths: ['topbar'],
-      },
-    }),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(viewAllMembersDetails.middleware),
 });
 
-export const persistor = persistStore(store);
 export type RootState = ReturnType<typeof store.getState>;
 export default store;

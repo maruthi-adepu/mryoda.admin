@@ -14,7 +14,7 @@ const topbarHooks = () => {
   const routes : { [key: string]: string } = {
     "Dashboard": "/dashboard",
     "Register New Membership": "/newmember",
-    "Members": "/viewmember",
+    "Members": "/viewMembers",
     "Transaction History": "/transactions",
     "Renew Membership": "/renew",
     "Cashback": "/cashback",

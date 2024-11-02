@@ -15,6 +15,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import profileIcon from '../../public/images/profileIcon.png'
 import Image from 'next/image';
+import { useViewAllMembersDetailsQuery } from '@/api/viewAllMember/viewAllMember';
 
 
 const columns = [
@@ -91,11 +92,17 @@ const rows = [
     // Add more rows as needed
 ];
 
-export default function DataTable() {
+export default function ViewMembersTable() {
     const [status, setStatus] = React.useState('Active');
     const [memberType, setMemberType] = React.useState('All');
     const [selectedDate, setSelectedDate] = React.useState<string | null | undefined>(null);
 
+    const payload={
+        page:1,
+        pageSize:10
+    }
+    const {data:viewAllMembers}=useViewAllMembersDetailsQuery(payload)
+    console.log(viewAllMembers,"viewAllMembers")
 
 
     return (

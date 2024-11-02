@@ -2,13 +2,14 @@ import Image from 'next/image'
 import React from 'react'
 import formImage from '../../../public/images/newregistration.png'
 import { Box, Grid, Button, Typography, FormLabel, Grid2, Container, TextField } from '@mui/material';
+import TopBar from '@/components/topbar';
 
 const Page = () => {
     return (
         <>
-
+<TopBar/>
             <Container maxWidth="xl">
-                <Grid container>
+                <Grid container sx={{marginTop:5}}>
                     <Grid item xs={12} sm={6} md={4} lg={3.2}>
                         <Box sx={{ height: '492px', borderRadius: '22px' }}>
                             <Image src={formImage} alt='' className='h-[492px] w-[372px]' />

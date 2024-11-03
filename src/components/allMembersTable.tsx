@@ -18,6 +18,7 @@ import Image from 'next/image';
 import { useViewAllMembersDetailsQuery } from '@/api/viewAllMember/viewAllMember';
 import ViewPrimeMembersInfo from './viewPrimeMembersInfo';
 import moment from 'moment';
+import { Member } from '@/types/PrimeMemberTableTypes';
 
 
 
@@ -302,7 +303,7 @@ export default function ViewMembersTable() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {viewAllMembers?.data?.map((row, index) => (
+                                {viewAllMembers?.data?.map((row:Member, index:number) => (
                                     <TableRow key={index}>
 
                                         <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>

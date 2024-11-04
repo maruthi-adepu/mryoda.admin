@@ -149,11 +149,25 @@ const NewPrimeRegistration = () => {
                                             fontWeight: 'bold',
                                             color: '#4A4A4A',
                                             pb: 1,
-                                        }}>Full Name</FormLabel>
+                                        }}>First Name</FormLabel>
 
-                                        <TextField placeholder="Enter full name" variant="outlined" sx={{ width: '248px', background: '#F7F7F7CC', '& .MuiOutlinedInput-root': { '& fieldset': { borderWidth: '2px', borderColor: '#E5E5E5' }, '&:hover fieldset': { borderColor: '#E5E5E5' }, '&.Mui-focused fieldset': { borderColor: '#E5E5E5' } } }} InputProps={{ style: { height: '36px', padding: 0, margin: 0 } }} />
+                                        <TextField placeholder="Enter First name" variant="outlined" sx={{ width: '248px', background: '#F7F7F7CC', '& .MuiOutlinedInput-root': { '& fieldset': { borderWidth: '2px', borderColor: '#E5E5E5' }, '&:hover fieldset': { borderColor: '#E5E5E5' }, '&.Mui-focused fieldset': { borderColor: '#E5E5E5' } } }} InputProps={{ style: { height: '36px', padding: 0, margin: 0 } }} />
+                                    </Box>
+                                    <Box sx={{ width: '100%' }}>
+                                        <FormLabel htmlFor="fullName" sx={{
+                                            display: 'block',
+                                            fontSize: '0.875rem',
+                                            fontWeight: 'bold',
+                                            color: '#4A4A4A',
+                                            pb: 1,
+                                        }}>Last Name</FormLabel>
+
+                                        <TextField placeholder="Last Name" variant="outlined" sx={{ width: '248px', background: '#F7F7F7CC', '& .MuiOutlinedInput-root': { '& fieldset': { borderWidth: '2px', borderColor: '#E5E5E5' }, '&:hover fieldset': { borderColor: '#E5E5E5' }, '&.Mui-focused fieldset': { borderColor: '#E5E5E5' } } }} InputProps={{ style: { height: '36px', padding: 0, margin: 0 } }} />
 
                                     </Box>
+                                    
+                                </Box>
+                                <Box sx={{ display: 'flex', width: '512px', height: '56px', gap: '16px' }}>
                                     <Box sx={{ width: '100%' }}>
                                         <FormLabel htmlFor="mobileNumber" sx={{
                                             display: 'block',
@@ -164,9 +178,6 @@ const NewPrimeRegistration = () => {
                                         }}>Mobile Number</FormLabel>
                                         <TextField onChange={(e) => handleChange(e, "mobileNumber")} value={mobile} id="mobileNumber" placeholder="Enter mobile number" variant="outlined" sx={{ width: '248px', background: '#F7F7F7CC', '& .MuiOutlinedInput-root': { '& fieldset': { borderWidth: '2px', borderColor: '#E5E5E5' }, '&:hover fieldset': { borderColor: '#E5E5E5' }, '&.Mui-focused fieldset': { borderColor: '#E5E5E5' } } }} InputProps={{ style: { height: '36px', padding: 0, margin: 0 } }} />
                                     </Box>
-                                </Box>
-
-                                <Box sx={{ display: 'flex', width: '512px', height: '56px', gap: '16px' }}>
                                     <Box sx={{ width: '100%' }}>
                                         <FormLabel htmlFor="email" sx={{
                                             display: 'block',
@@ -177,16 +188,7 @@ const NewPrimeRegistration = () => {
                                         }}>Email Address</FormLabel>
                                         <TextField type="email" id="email" placeholder="Enter email address" variant="outlined" sx={{ width: '248px', background: '#F7F7F7CC', '& .MuiOutlinedInput-root': { '& fieldset': { borderWidth: '2px', borderColor: '#E5E5E5' }, '&:hover fieldset': { borderColor: '#E5E5E5' }, '&.Mui-focused fieldset': { borderColor: '#E5E5E5' } } }} InputProps={{ style: { height: '36px', padding: 0, margin: 0 } }} />
                                     </Box>
-                                    <Box sx={{ width: '100%' }}>
-                                        <FormLabel htmlFor="address" sx={{
-                                            display: 'block',
-                                            fontSize: '0.875rem',
-                                            fontWeight: 'bold',
-                                            color: '#4A4A4A',
-                                            pb: 1,
-                                        }}>Address</FormLabel>
-                                        <TextField type="text" id="address" placeholder="Enter address" variant="outlined" sx={{ width: '248px', background: '#F7F7F7CC', '& .MuiOutlinedInput-root': { '& fieldset': { borderWidth: '2px', borderColor: '#E5E5E5' }, '&:hover fieldset': { borderColor: '#E5E5E5' }, '&.Mui-focused fieldset': { borderColor: '#E5E5E5' } } }} InputProps={{ style: { height: '36px', padding: 0, margin: 0 } }} />
-                                    </Box>
+                                    
                                 </Box>
 
                                 <Box sx={{ width: '512px', height: '56px', gap: '16px', my: 2 }}>
@@ -210,7 +212,7 @@ const NewPrimeRegistration = () => {
                                         fontWeight: 'bold',
                                         color: '#4A4A4A',
                                         pb: 1,
-                                    }}>Add Family Members</FormLabel>
+                                    }}>Address</FormLabel>
                                     <TextField type="text" id="familyMembers" placeholder="Enter family member details" variant="outlined" sx={{ width: '512px', background: '#F7F7F7CC', '& .MuiOutlinedInput-root': { '& fieldset': { borderWidth: '2px', borderColor: '#E5E5E5' }, '&:hover fieldset': { borderColor: '#E5E5E5' }, '&.Mui-focused fieldset': { borderColor: '#E5E5E5' } } }} InputProps={{ style: { height: '76px', padding: 0, margin: 0 } }} />
                                 </Box>
 

@@ -25,7 +25,7 @@ import { Member } from '@/types/PrimeMemberTableTypes';
 const columns = [
     { id: 'name', label: 'Member Name' },
     { id: 'mobile', label: 'Mobile' },
-    { id: 'memberId', label: 'Member ID' },
+    // { id: 'memberId', label: 'Member ID' },
     { id: 'startDate', label: 'Start Date' },
     { id: 'expiryDate', label: 'Expiry Date' },
     { id: 'cashbackBalance', label: 'Cashback Balance' },
@@ -38,7 +38,7 @@ const rows = [
     {
         name: 'Srinivasulu Venkata Ramana Reddy',
         mobile: '9876543210',
-        memberId: 'YODA123456',
+        // memberId: 'YODA123456',
         startDate: '01/01/2023',
         expiryDate: '01/01/2024',
         cashbackBalance: '₹ 456.00',
@@ -48,7 +48,7 @@ const rows = [
     {
         name: 'Lakshmi Nivas Chowdary',
         mobile: '9876543210',
-        memberId: 'YODA123456',
+        // memberId: 'YODA123456',
         startDate: '01/01/2023',
         expiryDate: '01/01/2024',
         cashbackBalance: '₹ 126.50',
@@ -58,7 +58,7 @@ const rows = [
     {
         name: 'Mallikarjuna',
         mobile: '9876543210',
-        memberId: 'YODA123456',
+        // memberId: 'YODA123456',
         startDate: '01/01/2023',
         expiryDate: '01/01/2024',
         cashbackBalance: '₹ 1700.00',
@@ -68,7 +68,7 @@ const rows = [
     {
         name: 'Mallikarjuna',
         mobile: '9876543210',
-        memberId: 'YODA123456',
+        // memberId: 'YODA123456',
         startDate: '01/01/2023',
         expiryDate: '01/01/2024',
         cashbackBalance: '₹ 1700.00',
@@ -77,7 +77,7 @@ const rows = [
     }, {
         name: 'Mallikarjuna',
         mobile: '9876543210',
-        memberId: 'YODA123456',
+        // memberId: 'YODA123456',
         startDate: '01/01/2023',
         expiryDate: '01/01/2024',
         cashbackBalance: '₹ 1700.00',
@@ -86,7 +86,7 @@ const rows = [
     }, {
         name: 'Mallikarjuna',
         mobile: '9876543210',
-        memberId: 'YODA123456',
+        // memberId: 'YODA123456',
         startDate: '01/01/2023',
         expiryDate: '01/01/2024',
         cashbackBalance: '₹ 1700.00',
@@ -103,7 +103,7 @@ export default function ViewMembersTable() {
 
     const payload = {
         page: 1,
-        pageSize: 10
+        pageSize: Number.MAX_SAFE_INTEGER
     }
     const { data: viewAllMembers } = useViewAllMembersDetailsQuery(payload);
 
@@ -117,7 +117,7 @@ export default function ViewMembersTable() {
             <ViewPrimeMembersInfo />
             <Container maxWidth="xl">
                 <Box sx={{ display: "flex" }}>
-                    <Box padding={2} sx={{ width: "80%" }}>
+                    <Box padding={"16px 0"} sx={{ width: "80%" }}>
                         <Grid container spacing={1} alignItems="center">
                             {/* Search Input */}
                             <Grid item xs={12} sm={6} md={4} lg={3.2}>
@@ -161,6 +161,8 @@ export default function ViewMembersTable() {
                                         border: '1px solid #EAEAEA',
                                         borderRadius: '22px',
                                         background: '#FFFFFF',
+                                        color:'#979797',
+                                        fontWeight:'600'
                                     }}
                                 >
                                     <MenuItem value="All">All</MenuItem>
@@ -183,6 +185,8 @@ export default function ViewMembersTable() {
                                         border: '1px solid #EAEAEA',
                                         borderRadius: '22px',
                                         background: '#FFFFFF',
+                                        color:'#979797',
+                                        fontWeight:'600'
                                     }}
                                 >
                                     <MenuItem value="Active">Active</MenuItem>
@@ -292,7 +296,7 @@ export default function ViewMembersTable() {
             <Container maxWidth="xl">
                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                     <TableContainer>
-                        <Table>
+                        <Table className='membershipTable'>
                             <TableHead>
                                 <TableRow>
                                     {columns?.map((column) => (
@@ -312,7 +316,7 @@ export default function ViewMembersTable() {
                                                 <Typography sx={{ marginLeft: 1, color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>{row?.first_name ? row?.first_name : "N/A"} {row?.last_name ? row?.last_name : ""}</Typography>
                                             </Box></TableCell>
                                         <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>{row?.mobile}</TableCell>
-                                        <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>{row.id}</TableCell>
+                                        
                                         <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}> {moment(row?.created_at).format("DD/MM/YYYY")}</TableCell>
                                         <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>{moment(row?.updated_at).format("DD/MM/YYYY")}</TableCell>
                                         <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>{"N/A"}</TableCell>

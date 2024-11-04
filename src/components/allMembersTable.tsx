@@ -19,16 +19,18 @@ import { useViewAllMembersDetailsQuery } from '@/api/viewAllMember/viewAllMember
 import ViewPrimeMembersInfo from './viewPrimeMembersInfo';
 import moment from 'moment';
 import { Member } from '@/types/PrimeMemberTableTypes';
+import ArrowIcon from '../../public/images/arrow.png'
+import ArrowBottom from '../../public/images/arrowBottom.png'
 
 
 
 const columns = [
-    { id: 'name', label: 'Member Name' },
+    { id: 'name', label: 'Member Name', icon:ArrowIcon, iconBottom:ArrowBottom, addontext:'A to Z' },
     { id: 'mobile', label: 'Mobile' },
     // { id: 'memberId', label: 'Member ID' },
-    { id: 'startDate', label: 'Start Date' },
-    { id: 'expiryDate', label: 'Expiry Date' },
-    { id: 'cashbackBalance', label: 'Cashback Balance' },
+    { id: 'startDate', label: 'Start Date',icon:ArrowIcon, iconBottom:ArrowBottom},
+    { id: 'expiryDate', label: 'Expiry Date',icon:ArrowIcon, iconBottom:ArrowBottom},
+    { id: 'cashbackBalance', label: 'Cashback Balance',icon:ArrowIcon, iconBottom:ArrowBottom},
     { id: 'status', label: 'Status' },
     { id: 'activity', label: 'Activity' },
     { id: 'actions', label: 'Actions' },
@@ -297,11 +299,18 @@ export default function ViewMembersTable() {
                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                     <TableContainer>
                         <Table className='membershipTable'>
-                            <TableHead>
+                            <TableHead sx={{backgroundColor:"#f7f7f7",borderBottom:"transparent"}}>
                                 <TableRow>
-                                    {columns?.map((column) => (
-                                        <TableCell key={column.id} sx={{ color: '#61626A', fontSize: '11px', fontWeight: 700, lineHeight: '14.63px' }}>
-                                            {column.label}
+                                    {columns?.map((column,i) => (
+                                        <TableCell key={column.id} sx={{ color: '#61626A', fontSize: '11px', fontWeight: 700, lineHeight: '14.63px',borderBottom:"transparent"}}>
+                                            <Box sx={{display:"flex",flexDirection:"row"}}>
+                                                {column.label}
+                                                <Box sx={{display:'flex', flexDirection:'column'}}>
+                                                    {(i === 0 || i === 2 || i === 3 || i === 4) && ( <Image src={column.icon || ''} alt={column.label} />)}
+                                                    {(i === 0 || i === 2 || i === 3 || i === 4) && ( <Image src={column.iconBottom || ''} alt={column.label} />)}
+                                                </Box>
+                                                {column?.addontext}
+                                            </Box>
                                         </TableCell>
                                     ))}
                                 </TableRow>

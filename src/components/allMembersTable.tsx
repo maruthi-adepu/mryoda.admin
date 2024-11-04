@@ -19,6 +19,9 @@ import { useViewAllMembersDetailsQuery } from '@/api/viewAllMember/viewAllMember
 import ViewPrimeMembersInfo from './viewPrimeMembersInfo';
 import moment from 'moment';
 import { Member } from '@/types/PrimeMemberTableTypes';
+import PaginationAllMembers from './paginationAllMembers';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 
 
 
@@ -96,21 +99,20 @@ const rows = [
     // Add more rows as needed
 ];
 
+
 export default function ViewMembersTable() {
     const [status, setStatus] = React.useState('Active');
     const [memberType, setMemberType] = React.useState('All');
     const [selectedDate, setSelectedDate] = React.useState<string | null | undefined>(null);
+  
+    const { page, pageSize } = useSelector((state: RootState) => state.viewMemberDetails);
+
 
     const payload = {
-        page: 1,
-        pageSize: Number.MAX_SAFE_INTEGER
+        page: page,
+        pageSize: pageSize,
     }
     const { data: viewAllMembers } = useViewAllMembersDetailsQuery(payload);
-
-
-
-
-
 
     return (
         <>
@@ -350,6 +352,14 @@ export default function ViewMembersTable() {
                         </Table>
                     </TableContainer>
                 </Paper>
-            </Container></>
+            </Container>
+            <Box 
+      display="flex" 
+      justifyContent="center" 
+      alignItems="center" 
+    >
+        <PaginationAllMembers viewAllMembers={viewAllMembers}  />
+      </Box>
+            </>
     );
 }

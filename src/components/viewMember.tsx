@@ -8,12 +8,13 @@ import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store/store'
 import { useViewSingleMemberDetailsQuery } from '@/api/viewAllMember/viewAllMember'
+import {MemberDetails} from '../types/PrimeMemberTableTypes'
 
 
 
 
 const cardStyles = {
-  width: "198px",
+  minWidth: "198px",
   height: "128px",
   padding: "11px 22px",
   borderRadius: "22px",
@@ -31,10 +32,8 @@ const textStyles = {
 
 const valueStyles = {
   fontWeight: 700,
-  fontSize: "34px",
+  fontSize: "28px",
   lineHeight: "40px",
-  width: "154.67px",
-  height: "40px",
   color: "#392500",
 };
 
@@ -60,8 +59,7 @@ const ViewMemberDetails = () => {
   const router = useRouter();
   const { page, pageSize ,mobileNumber} = useSelector((state: RootState) => state.viewMemberDetails);
 
-  const {data}=useViewSingleMemberDetailsQuery(mobileNumber)
-  console.log(data,"singlememberdata")
+  const {data:ViewSingleMemberDetails}=useViewSingleMemberDetailsQuery(mobileNumber)
 
   return (
     <section>
@@ -73,7 +71,7 @@ const ViewMemberDetails = () => {
       <Container maxWidth="xl">
 
         <Box sx={{ display: "flex", gap: "22px", alignItems: "center", marginY: 2 }}>
-          <Box><svg onClick={() => { router?.push("/newmember") }} width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <Box><svg onClick={() => { router?.push("/viewMembers") }} className='cursor-pointer' width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="35.5" y="0.5" width="35" height="35" rx="10.5" transform="rotate(90 35.5 0.5)" stroke="#7C7C7C" />
             <path d="M13 18C13 17.6856 13.12 17.3712 13.3596 17.1315L20.9028 9.58839C21.3826 9.10856 22.1606 9.10856 22.6403 9.58839C23.1199 10.068 23.1199 10.8459 22.6403 11.3257L15.9657 18L22.64 24.6742C23.1197 25.1541 23.1197 25.9318 22.64 26.4114C22.1604 26.8915 21.3824 26.8915 20.9026 26.4114L13.3594 18.8684C13.1198 18.6286 13 18.3143 13 18Z" fill="black" fillOpacity="0.5" />
           </svg>
@@ -88,7 +86,7 @@ const ViewMemberDetails = () => {
               <path d="M8.00016 7.33333C9.47292 7.33333 10.6668 6.13943 10.6668 4.66667C10.6668 3.19391 9.47292 2 8.00016 2C6.5274 2 5.3335 3.19391 5.3335 4.66667C5.3335 6.13943 6.5274 7.33333 8.00016 7.33333Z" stroke="black" strokeOpacity="0.5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </Box>
-          <Typography sx={{fontWeight: 400, fontSize: "15px", lineHeight: "20px", color:"#00000080"}}>Members</Typography>
+          <Typography sx={{fontWeight: 400, fontSize: "15px", lineHeight: "20px", color:"#00000080", cursor:"pointer"}}  onClick={() => { router?.push("/viewMembers") }} >Members</Typography>
           <Box><svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clipPath="url(#clip0_48_4212)">
               <path d="M10.7402 8.00004C10.7402 8.25095 10.6444 8.50182 10.4532 8.69312L4.43341 14.7128C4.05048 15.0957 3.42962 15.0957 3.04685 14.7128C2.66407 14.33 2.66407 13.7093 3.04685 13.3263L8.37345 8.00004L3.04703 2.67371C2.66426 2.29078 2.66426 1.67011 3.04703 1.28737C3.42981 0.904252 4.05066 0.904252 4.4336 1.28737L10.4533 7.30696C10.6446 7.49835 10.7402 7.74922 10.7402 8.00004Z" fill="black" fillOpacity="0.5" />
@@ -159,23 +157,109 @@ const ViewMemberDetails = () => {
                   </Box>
                   <Table sx={{ minWidth: 250,mt:2 }} aria-label="simple table">
                     <TableBody>
-                      {FirstCardData?.map((item, index) => (
-                        <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 'none' } }}>
+                      {ViewSingleMemberDetails?.data?.map((item:MemberDetails, index:number) => (
+                        <React.Fragment key={"index"}>
+                        <TableRow  sx={{ '&:last-child td, &:last-child th': { border: 'none' } }}>
                           <TableCell
                             component="th"
                             scope="row"
                             sx={{ padding: 0, fontWeight: 400, fontSize: "15px", lineHeight: "20px", color: "#FFFFFF", border: 'none',minWidth:"160px" }}
                           >
-                            {item?.label}
+                            {"Member Name"}
                           </TableCell>
                           <TableCell
                             align="left"
                             sx={{ padding: 0, fontWeight: 700, fontSize: "15px", lineHeight: "20px", color: "#FFFFFF", paddingY: 0.8, border: 'none' }}
                           >
-                            {item.value}
+                              {item?.first_name} {item?.last_name}
                           </TableCell>
                         </TableRow>
-                      ))}
+
+
+                        <TableRow  sx={{ '&:last-child td, &:last-child th': { border: 'none' } }}>
+                          <TableCell
+                            component="th"
+                            scope="row"
+                            sx={{ padding: 0, fontWeight: 400, fontSize: "15px", lineHeight: "20px", color: "#FFFFFF", border: 'none',minWidth:"160px" }}
+                          >
+                            {"Membership ID	"}
+                          </TableCell>
+                          <TableCell
+                            align="left"
+                            sx={{ padding: 0, fontWeight: 700, fontSize: "15px", lineHeight: "20px", color: "#FFFFFF", paddingY: 0.8, border: 'none' }}
+                          >
+                            {"YODA123456"}
+                          </TableCell>
+                        </TableRow>
+
+
+                        <TableRow  sx={{ '&:last-child td, &:last-child th': { border: 'none' } }}>
+                          <TableCell
+                            component="th"
+                            scope="row"
+                            sx={{ padding: 0, fontWeight: 400, fontSize: "15px", lineHeight: "20px", color: "#FFFFFF", border: 'none',minWidth:"160px" }}
+                          >
+                            {"Membership Status"}
+                          </TableCell>
+                          <TableCell
+                            align="left"
+                            sx={{ padding: 0, fontWeight: 700, fontSize: "15px", lineHeight: "20px", color: "#FFFFFF", paddingY: 0.8, border: 'none' }}
+                          >
+                            {"Active"}
+                          </TableCell>
+                        </TableRow>
+
+                        <TableRow  sx={{ '&:last-child td, &:last-child th': { border: 'none' } }}>
+                          <TableCell
+                            component="th"
+                            scope="row"
+                            sx={{ padding: 0, fontWeight: 400, fontSize: "15px", lineHeight: "20px", color: "#FFFFFF", border: 'none',minWidth:"160px" }}
+                          >
+                            {"Cashback Balance"}
+                          </TableCell>
+                          <TableCell
+                            align="left"
+                            sx={{ padding: 0, fontWeight: 700, fontSize: "15px", lineHeight: "20px", color: "#FFFFFF", paddingY: 0.8, border: 'none' }}
+                          >
+                            ₹{item?.total_rewards}
+                          </TableCell>
+                        </TableRow>
+
+
+                        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 'none' } }}>
+                          <TableCell
+                            component="th"
+                            scope="row"
+                            sx={{ padding: 0, fontWeight: 400, fontSize: "15px", lineHeight: "20px", color: "#FFFFFF", border: 'none',minWidth:"160px" }}
+                          >
+                            {"Start Date"}
+                          </TableCell>
+                          <TableCell
+                            align="left"
+                            sx={{ padding: 0, fontWeight: 700, fontSize: "15px", lineHeight: "20px", color: "#FFFFFF", paddingY: 0.8, border: 'none' }}
+                          >
+                            {"01/01/2024"}
+                          </TableCell>
+                        </TableRow>
+
+
+                        <TableRow  sx={{ '&:last-child td, &:last-child th': { border: 'none' } }}>
+                          <TableCell
+                            component="th"
+                            scope="row"
+                            sx={{ padding: 0, fontWeight: 400, fontSize: "15px", lineHeight: "20px", color: "#FFFFFF", border: 'none',minWidth:"160px" }}
+                          >
+                            {"Expiry Date"}
+                          </TableCell>
+                          <TableCell
+                            align="left"
+                            sx={{ padding: 0, fontWeight: 700, fontSize: "15px", lineHeight: "20px", color: "#FFFFFF", paddingY: 0.8, border: 'none' }}
+                          >
+                            {"01/01/2025"}
+                          </TableCell>
+                        </TableRow>
+                        </React.Fragment>
+                       ))} 
                     </TableBody>
                   </Table>
 
@@ -208,12 +292,18 @@ const ViewMemberDetails = () => {
                 
                 <Box sx={{ display: "flex", flexDirection: "column" }}>
                 <Box sx={{ background: "#0C4433", gap: "20px", width: "100%", minHeight: "460px", padding: "32px 0px", borderRadius: "33px", display: "flex", flexDirection: "column", mt:3, }}>
-                  <Box sx={{ display: "flex", gap: "20px",padding: "0px 32px" }}>
-                    {SecondCardData?.map((item, index) => (
-                      <Box key={index} sx={cardStyles}>
-                        <Typography sx={textStyles} className='truncate'>{item?.title}</Typography>
-                        <Typography sx={valueStyles}>{item?.value}</Typography>
-                      </Box>
+                  <Box sx={{ display: "flex",justifyContent:"space-between", gap: "12px",padding: "0px 32px" }}>
+                    {ViewSingleMemberDetails?.data?.map((item:MemberDetails, index:number) => (
+                      <React.Fragment  key={index}><Box sx={cardStyles}>
+                        <Typography sx={textStyles} className='truncate'>{"Total Cashback Earned"}</Typography>
+                        <Typography sx={valueStyles} > ₹{(item?.total_rewards + item?.rewards_used)?.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</Typography>
+                      </Box><Box  sx={cardStyles}>
+                          <Typography sx={textStyles} className='truncate'>{"Cashback Used"}</Typography>
+                          <Typography sx={valueStyles}> ₹{(item?.rewards_used)?.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</Typography>
+                        </Box><Box  sx={cardStyles}>
+                          <Typography sx={textStyles} className='truncate'>{"Remaining Cashback"}</Typography>
+                          <Typography sx={valueStyles}> ₹{(item?.total_rewards)?.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}                          </Typography>
+                        </Box></React.Fragment>
                     ))}
                   </Box>
                   <Box sx={{ background: "#00291C", padding: "11px 45px",mt:1}}>

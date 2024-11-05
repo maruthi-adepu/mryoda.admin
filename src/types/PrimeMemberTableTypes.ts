@@ -18,3 +18,30 @@ export interface Member {
     isMember: string;
     expires_at:string
   }
+
+
+  // Types of SingleMemberDetails
+  export interface MemberDetails {
+    id: number;
+    guid: string;
+    first_name: string;
+    last_name: string;
+    middle_name: string;
+    gender: 'Male' | 'Female' | 'Other'; 
+    dob: string; 
+    country_code: string;
+    mobile: string;
+    alt_mobile: string;
+    email: string; 
+    user_type: 'Customer' | 'Admin' | 'Guest';
+    profile_pic: string; 
+    updated_at: string; 
+    created_at: string; 
+    deleted_at: string | null; 
+    Guid: string;
+    customer_id: string;
+    total_rewards: number;
+    rewards_used: number;
+    reverted_rewards: number;
+    spent_amount: number;
+}

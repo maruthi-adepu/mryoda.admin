@@ -13,7 +13,13 @@ export const viewAllMembersDetails = createApi({
           body,
         }),
       }),
+      viewSingleMemberDetails: builder.query({
+        query: (mobile) => ({
+          url: `/users/getRewardsByMobile/${mobile}`,
+        }),
+      }),
     }),
+    
 });
 
-export const { useViewAllMembersDetailsQuery } = viewAllMembersDetails;
+export const { useViewAllMembersDetailsQuery,useViewSingleMemberDetailsQuery } = viewAllMembersDetails;

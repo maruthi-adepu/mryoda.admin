@@ -21,9 +21,11 @@ import { Member } from '@/types/PrimeMemberTableTypes';
 import ArrowIcon from '../../public/images/arrow.png'
 import ArrowBottom from '../../public/images/arrowBottom.png'
 import PaginationAllMembers from './paginationAllMembers';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { setMobileNumber } from '@/store/slices/viewMemberDetailsSlice';
 
 
 
@@ -46,12 +48,13 @@ export default function ViewMembersTable() {
     const [memberType, setMemberType] = useState('All');
     const [selectedDate, setSelectedDate] = useState<string | null | undefined>(null);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [selectedMobile, setSelectedMobile] = useState<string>('');
+    const [name,setName]=useState<string | null | undefined>("")
+    console.log("selectedmobilenumber")
  
- 
-    const { page, pageSize } = useSelector((state: RootState) => state.viewMemberDetails);
-
-
+    const { page, pageSize ,mobileNumber} = useSelector((state: RootState) => state.viewMemberDetails);
+    console.log(mobileNumber,"mmmm")
+    const dispatch=useDispatch()
+    const router=useRouter()
     const payload = {
         page: page,
         pageSize: pageSize,
@@ -59,18 +62,16 @@ export default function ViewMembersTable() {
     const { data: viewAllMembers } = useViewAllMembersDetailsQuery(payload);
     const handleClick = (event: React.MouseEvent<HTMLElement>, mobile: string) => {
         setAnchorEl(event.currentTarget);
-        setSelectedMobile(mobile);
     };
  
     const handleClose = () => {
         setAnchorEl(null);
-        setSelectedMobile('');
     };
  
     const handleSingleMemberView = (mobile: string) => {
         handleClose(); // Close the menu
         // Navigate to the viewMembers route
-        // router.push(`/viewMembers/${mobile}`);
+        router.push(`/viewMembers/${name}`);
     };
     return (
         <>
@@ -312,7 +313,9 @@ export default function ViewMembersTable() {
                                                     sx={{ color: '#000000' }}
                                                     onClick={(event) => {
                                                         handleClick(event, row.mobile)
-                                                        setSelectedMobile(row?.mobile)
+                                                        dispatch(setMobileNumber(row?.mobile))
+                                                        setName(row?.first_name)
+
                                                     }} // Assuming you have handleClick for menu
                                                 >
                                                     <MoreVertIcon />
@@ -328,7 +331,7 @@ export default function ViewMembersTable() {
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
-                            <MenuItem onClick={() => handleSingleMemberView(selectedMobile)}>View</MenuItem>
+                            <MenuItem onClick={() => handleSingleMemberView(mobileNumber)}>View</MenuItem>
                             {/* Uncomment below to add a delete option */}
                             {/* <MenuItem onClick={() => handleDelete(selectedMobile)}>Delete</MenuItem> */}
                         </Menu>

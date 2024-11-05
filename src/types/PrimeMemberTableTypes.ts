@@ -1,7 +1,7 @@
 export interface Member {
     id: number;
     guid: string;
-    first_name: string | null;
+    first_name: string | null | undefined;
     last_name: string | null;
     middle_name: string | null;
     gender: string | null;

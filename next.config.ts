@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
     domains: [
       'example.com', // Allow images from example.com
       'mr-yoda-dev.s3.ap-south-1.amazonaws.com', // Allow images from your S3 bucket
+      'yoda-client-enrollment.s3.ap-south-1.amazonaws.com'
     ],  },
 };
 

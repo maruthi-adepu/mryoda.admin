@@ -1,8 +1,8 @@
 export interface Member {
     id: number;
     guid: string;
-    first_name: string | null | undefined;
-    last_name: string | null;
+    first_name: string ;
+    last_name: string ;
     middle_name: string | null;
     gender: string | null;
     dob: string | null;
@@ -18,6 +18,7 @@ export interface Member {
     isMember: string;
     expires_at:string;
     start_at:string;
+    total_rewards:string | number;
   }
 
 
@@ -45,4 +46,7 @@ export interface Member {
     rewards_used: number;
     reverted_rewards: number;
     spent_amount: number;
+    membership_end_date:string | number;
+    membership_start_date:string | number;
+    membership_status:boolean
 }

@@ -5,6 +5,9 @@ import React from 'react'
 import img from '../../public/images/newregistration.png'
 import TopBar from '@/components/topbar';
 import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store/store'
+import { useViewSingleMemberDetailsQuery } from '@/api/viewAllMember/viewAllMember'
 
 
 
@@ -55,10 +58,13 @@ const FirstCardData = [
 const ViewMemberDetails = () => {
 
   const router = useRouter();
+  const { page, pageSize ,mobileNumber} = useSelector((state: RootState) => state.viewMemberDetails);
+
+  const {data}=useViewSingleMemberDetailsQuery(mobileNumber)
+  console.log(data,"singlememberdata")
 
   return (
     <section>
-      <TopBar />
 
 
 

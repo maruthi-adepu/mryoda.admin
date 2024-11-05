@@ -5,6 +5,7 @@ interface ViewMemberDetailsState {
     pageSize: number;
     currentPage: number;
     pageLimits: number[];
+    mobileNumber:string 
 }
 
 const initialState: ViewMemberDetailsState = {
@@ -12,6 +13,7 @@ const initialState: ViewMemberDetailsState = {
     pageSize: 10,
     currentPage: 1,
     pageLimits: [],
+    mobileNumber:""
 };
 
 const viewMemberDetailsSlice = createSlice({
@@ -31,9 +33,12 @@ const viewMemberDetailsSlice = createSlice({
         setPageLimits: (state, action: PayloadAction<number[]>) => {
             state.pageLimits = action.payload;
         },
+        setMobileNumber: (state, action: PayloadAction<string>) => {
+            state.mobileNumber = action.payload;
+        },
     },
 });
 
 // Export actions and reducer
-export const { setPage, setPageSize, setCurrentPage, setPageLimits } = viewMemberDetailsSlice.actions;
+export const { setPage, setPageSize, setCurrentPage, setPageLimits,setMobileNumber } = viewMemberDetailsSlice.actions;
 export default viewMemberDetailsSlice.reducer;

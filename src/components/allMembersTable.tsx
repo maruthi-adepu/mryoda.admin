@@ -23,9 +23,9 @@ import ArrowBottom from '../../public/images/arrowBottom.png'
 import PaginationAllMembers from './paginationAllMembers';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { setMobileNumber } from '@/store/slices/viewMemberDetailsSlice';
+import { setMobileNumber, setPage, setPageSize, setSearchName } from '@/store/slices/viewMemberDetailsSlice';
 
 
 
@@ -51,15 +51,19 @@ export default function ViewMembersTable() {
     const [name,setName]=useState<string | null | undefined>("")
     console.log("selectedmobilenumber")
  
-    const { page, pageSize ,mobileNumber} = useSelector((state: RootState) => state.viewMemberDetails);
+    const { page, pageSize ,mobileNumber,searchName} = useSelector((state: RootState) => state.viewMemberDetails);
+    const [debounceOrderSearch, setDebounceOrdersearch] = useState<
+    string | null | undefined
+  >(searchName);
     console.log(mobileNumber,"mmmm")
     const dispatch=useDispatch()
     const router=useRouter()
     const payload = {
         page: page,
         pageSize: pageSize,
+        searchString: debounceOrderSearch,
     }
-    const { data: viewAllMembers } = useViewAllMembersDetailsQuery(payload);
+    const { data: viewAllMembers,isLoading } = useViewAllMembersDetailsQuery(payload);
     const handleClick = (event: React.MouseEvent<HTMLElement>, mobile: string) => {
         setAnchorEl(event.currentTarget);
     };
@@ -67,12 +71,22 @@ export default function ViewMembersTable() {
     const handleClose = () => {
         setAnchorEl(null);
     };
- 
+   
     const handleSingleMemberView = (mobile: string) => {
         handleClose(); // Close the menu
         // Navigate to the viewMembers route
         router.push(`/viewMembers/${name}`);
     };
+    useEffect(() => {
+        const handler = setTimeout(() => {
+          setDebounceOrdersearch(searchName);
+        }, 500);
+        return () => {
+          clearTimeout(handler);
+        };
+      }, [searchName]);
+   
+
     return (
         <>
             <ViewPrimeMembersInfo />
@@ -85,6 +99,11 @@ export default function ViewMembersTable() {
                                 <TextField
                                     placeholder="Enter member name"
                                     variant="outlined"
+                                    onChange={(e) => {
+                                        dispatch(setSearchName(e.target.value));
+                                        dispatch(setPageSize(10));       
+                                        dispatch(setPage(1));                         
+                                         }}
                                     fullWidth
                                     sx={{
                                         width: '292px',
@@ -97,6 +116,7 @@ export default function ViewMembersTable() {
                                             '&.Mui-focused fieldset': { borderColor: '#E5E5E5' },
                                         },
                                     }}
+                                    
                                     InputProps={{
                                         startAdornment: <SearchIcon color="action" />,
                                         style: {
@@ -275,55 +295,70 @@ export default function ViewMembersTable() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {viewAllMembers?.data?.map((row:Member, index:number) => (
-                                    <TableRow key={index}>
-
-                                        <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>
-                                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                <Image src={profileIcon} alt='profileIcon' />
-                                                <Typography sx={{ marginLeft: 1, color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>{row?.first_name ? row?.first_name : "N/A"} {row?.last_name ? row?.last_name : ""}</Typography>
-                                            </Box></TableCell>
-                                        <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>{row?.mobile}</TableCell>
-                                        
-                                        <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}> {moment(row?.created_at).format("DD/MM/YYYY")}</TableCell>
-                                        <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>{moment(row?.updated_at).format("DD/MM/YYYY")}</TableCell>
-                                        <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>{"N/A"}</TableCell>
-                                        <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>
-                                            <span>
-                                                {row?.isMember === "true" ?
-                                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
-                                                        <svg width="7" height="7" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <circle cx="3.5" cy="3.5" r="3" fill="#0DC44A" />
-                                                        </svg>
-                                                        Active
-                                                    </Box>
-                                                    :
-                                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
-                                                        <svg width="6" height="7" viewBox="0 0 6 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <circle cx="3" cy="3.5" r="3" fill="#FD6206" />
-                                                        </svg>
-                                                        Expired
-                                                    </Box>}
-                                            </span>
-                                        </TableCell>
-                                        <TableCell sx={{ color: '#61626A', fontWeight: 700, }}>{"Recent Activity"}</TableCell>
-                                        <TableCell>
-                                        <Tooltip title="Options" arrow>
-                                                <IconButton
-                                                    sx={{ color: '#000000' }}
-                                                    onClick={(event) => {
-                                                        handleClick(event, row.mobile)
-                                                        dispatch(setMobileNumber(row?.mobile))
-                                                        setName(row?.first_name)
-
-                                                    }} // Assuming you have handleClick for menu
-                                                >
-                                                    <MoreVertIcon />
-                                                </IconButton>
-                                            </Tooltip>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
+                            {viewAllMembers?.data?.length === 0 ? (
+                            <TableRow>
+              <TableCell colSpan={8} sx={{ textAlign: "center", padding: 2 }}>
+             <Typography variant="h6" sx={{ marginY: 2 }}>
+                     No user found
+                  </Typography>
+                </TableCell>
+              </TableRow>
+                 ) : (
+             viewAllMembers?.data?.map((row: Member, index: number) => (
+                          <TableRow key={index}>
+        <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Image src={profileIcon} alt='profileIcon' />
+          <Typography sx={{ marginLeft: 1, color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>
+            {row?.first_name ? row?.first_name : "N/A"} {row?.last_name ? row?.last_name : ""}
+           </Typography>
+        </Box>
+      </TableCell>
+      <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>{row?.mobile}</TableCell>
+      <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>
+        {moment(row?.created_at).format("DD/MM/YYYY")}
+      </TableCell>
+      <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>
+        {moment(row?.updated_at).format("DD/MM/YYYY")}
+      </TableCell>
+      <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>{"N/A"}</TableCell>
+      <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>
+        <span>
+          {row?.isMember === "true" ? (
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
+              <svg width="7" height="7" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="3.5" cy="3.5" r="3" fill="#0DC44A" />
+              </svg>
+              Active
+            </Box>
+          ) : (
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
+              <svg width="6" height="7" viewBox="0 0 6 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="3" cy="3.5" r="3" fill="#FD6206" />
+              </svg>
+              Expired
+            </Box>
+          )}
+        </span>
+      </TableCell>
+      <TableCell sx={{ color: '#61626A', fontWeight: 700 }}>{"Recent Activity"}</TableCell>
+      <TableCell>
+        <Tooltip title="Options" arrow>
+          <IconButton
+            sx={{ color: '#000000' }}
+            onClick={(event) => {
+              handleClick(event, row.mobile);
+              dispatch(setMobileNumber(row?.mobile));
+              setName(row?.first_name);
+            }} // Assuming you have handleClick for menu
+          >
+               <MoreVertIcon />
+               </IconButton>
+               </Tooltip>
+            </TableCell>
+           </TableRow>
+              ))
+                )}
                             </TableBody>
                         </Table>
                         <Menu
@@ -343,7 +378,7 @@ export default function ViewMembersTable() {
       justifyContent="center" 
       alignItems="center" 
     >
-        <PaginationAllMembers viewAllMembers={viewAllMembers}  />
+       {viewAllMembers?.data?.length >0 &&   <PaginationAllMembers viewAllMembers={viewAllMembers}  />}
       </Box>
             </>
     );

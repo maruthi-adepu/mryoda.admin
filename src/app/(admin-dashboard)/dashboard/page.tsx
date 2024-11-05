@@ -7,6 +7,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import TopBar from '@/components/topbar';
+import ViewMemberDetails from '@/components/viewMember';
 
 const cardData = [
     { title: 'Active Members', value: '1,234', percentage: '+5%', color: '#F9F4A0'},
@@ -55,6 +56,7 @@ const page = () => {
                 </Container>
               
             </section>
+            {/* <ViewMemberDetails /> */}
         </>
     )
 }

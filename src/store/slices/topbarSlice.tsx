@@ -1,14 +1,16 @@
-// src/features/topbarSlice.js
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
+ 
 interface TopbarState {
-  title: string;
+  title: string | null | undefined;
+  topbarRoute : string | null | undefined
 }
-
+ 
 const initialState: TopbarState = {
-  title: "Dashboard", 
+  title: null,
+  topbarRoute : null
 };
-
+ 
+ 
 const topbarSlice = createSlice({
   name: 'topbar',
   initialState,
@@ -16,9 +18,12 @@ const topbarSlice = createSlice({
     setTitle: (state, action: PayloadAction<string>) => {
       state.title = action.payload;
     },
+    setTopbarRoute: (state, action: PayloadAction<string>) => {
+      state.topbarRoute = action.payload;
+    },
   },
 });
-
-
-export const { setTitle } = topbarSlice.actions;
+ 
+ 
+export const { setTitle, setTopbarRoute } = topbarSlice.actions;
 export default topbarSlice.reducer;

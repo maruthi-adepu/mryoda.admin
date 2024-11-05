@@ -6,7 +6,6 @@ import NewPrimeRegistration from '@/components/newPrimeRegistrartion';
 const Page = () => {
     return (
         <>
-        <TopBar/>
         <NewPrimeRegistration/>
         </>
     )

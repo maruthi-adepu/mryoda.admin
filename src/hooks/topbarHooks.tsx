@@ -1,38 +1,21 @@
-import { setTitle } from '@/store/slices/topbarSlice';
+import { setTitle, setTopbarRoute } from '@/store/slices/topbarSlice';
 import { RootState } from '@reduxjs/toolkit/query';
 import { useRouter } from 'next/navigation';
-import React from 'react'
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-
-
+ 
 const topbarHooks = () => {
-
   const dispatch = useDispatch();
   const router = useRouter();
-
-  const routes : { [key: string]: string } = {
-    "Dashboard": "/dashboard",
-    "Register New Membership": "/newmember",
-    "Members": "/viewMembers",
-    "Transaction History": "/transactions",
-    "Renew Membership": "/renew",
-    "Cashback": "/cashback",
-    "Appointments": "/appointments",
-    "Reports": "/reports"
+ 
+  const handleSelectTitle = (item: any) => {
+    dispatch(setTitle(item.title));
+    router.push(item.route);
+    dispatch(setTopbarRoute(item.route))
+  };
+ 
+  return { handleSelectTitle };
 };
-
-  const handleSelectTitile = (title: string) => {
-    dispatch(setTitle(title)); 
-    const path = routes[title];
-    if (path) {
-      router.push(path);
-    }
-  }
-
-
-
-  return { handleSelectTitile }
-}
-
-export default topbarHooks
+ 
+export default topbarHooks;
+ 

@@ -1,5 +1,4 @@
 'use client'
-import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,7 +6,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Container, Box, TextField, MenuItem, Select, Button, IconButton, Avatar, Typography, Grid } from '@mui/material';
+import { Container, Box, TextField, MenuItem, Select, Button, IconButton, Avatar, Typography, Grid, Tooltip, Menu } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -24,6 +23,7 @@ import ArrowBottom from '../../public/images/arrowBottom.png'
 import PaginationAllMembers from './paginationAllMembers';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
+import { useState } from 'react';
 
 
 
@@ -39,74 +39,16 @@ const columns = [
     { id: 'actions', label: 'Actions' },
 ];
 
-const rows = [
-    {
-        name: 'Srinivasulu Venkata Ramana Reddy',
-        mobile: '9876543210',
-        // memberId: 'YODA123456',
-        startDate: '01/01/2023',
-        expiryDate: '01/01/2024',
-        cashbackBalance: '₹ 456.00',
-        status: 'Active',
-        activity: 'Recent Activity',
-    },
-    {
-        name: 'Lakshmi Nivas Chowdary',
-        mobile: '9876543210',
-        // memberId: 'YODA123456',
-        startDate: '01/01/2023',
-        expiryDate: '01/01/2024',
-        cashbackBalance: '₹ 126.50',
-        status: 'Active',
-        activity: 'Recent Activity',
-    },
-    {
-        name: 'Mallikarjuna',
-        mobile: '9876543210',
-        // memberId: 'YODA123456',
-        startDate: '01/01/2023',
-        expiryDate: '01/01/2024',
-        cashbackBalance: '₹ 1700.00',
-        status: 'Expired',
-        activity: 'Recent Activity',
-    },
-    {
-        name: 'Mallikarjuna',
-        mobile: '9876543210',
-        // memberId: 'YODA123456',
-        startDate: '01/01/2023',
-        expiryDate: '01/01/2024',
-        cashbackBalance: '₹ 1700.00',
-        status: 'Expired',
-        activity: 'Recent Activity',
-    }, {
-        name: 'Mallikarjuna',
-        mobile: '9876543210',
-        // memberId: 'YODA123456',
-        startDate: '01/01/2023',
-        expiryDate: '01/01/2024',
-        cashbackBalance: '₹ 1700.00',
-        status: 'Expired',
-        activity: 'Recent Activity',
-    }, {
-        name: 'Mallikarjuna',
-        mobile: '9876543210',
-        // memberId: 'YODA123456',
-        startDate: '01/01/2023',
-        expiryDate: '01/01/2024',
-        cashbackBalance: '₹ 1700.00',
-        status: 'Expired',
-        activity: 'Recent Activity',
-    },
-    // Add more rows as needed
-];
 
 
 export default function ViewMembersTable() {
-    const [status, setStatus] = React.useState('Active');
-    const [memberType, setMemberType] = React.useState('All');
-    const [selectedDate, setSelectedDate] = React.useState<string | null | undefined>(null);
-  
+    const [status, setStatus] = useState('Active');
+    const [memberType, setMemberType] = useState('All');
+    const [selectedDate, setSelectedDate] = useState<string | null | undefined>(null);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [selectedMobile, setSelectedMobile] = useState<string>('');
+ 
+ 
     const { page, pageSize } = useSelector((state: RootState) => state.viewMemberDetails);
 
 
@@ -115,7 +57,21 @@ export default function ViewMembersTable() {
         pageSize: pageSize,
     }
     const { data: viewAllMembers } = useViewAllMembersDetailsQuery(payload);
-
+    const handleClick = (event: React.MouseEvent<HTMLElement>, mobile: string) => {
+        setAnchorEl(event.currentTarget);
+        setSelectedMobile(mobile);
+    };
+ 
+    const handleClose = () => {
+        setAnchorEl(null);
+        setSelectedMobile('');
+    };
+ 
+    const handleSingleMemberView = (mobile: string) => {
+        handleClose(); // Close the menu
+        // Navigate to the viewMembers route
+        // router.push(`/viewMembers/${mobile}`);
+    };
     return (
         <>
             <ViewPrimeMembersInfo />
@@ -351,14 +307,31 @@ export default function ViewMembersTable() {
                                         </TableCell>
                                         <TableCell sx={{ color: '#61626A', fontWeight: 700, }}>{"Recent Activity"}</TableCell>
                                         <TableCell>
-                                            <IconButton sx={{ color: '#000000' }}>
-                                                <MoreVertIcon />
-                                            </IconButton>
+                                        <Tooltip title="Options" arrow>
+                                                <IconButton
+                                                    sx={{ color: '#000000' }}
+                                                    onClick={(event) => {
+                                                        handleClick(event, row.mobile)
+                                                        setSelectedMobile(row?.mobile)
+                                                    }} // Assuming you have handleClick for menu
+                                                >
+                                                    <MoreVertIcon />
+                                                </IconButton>
+                                            </Tooltip>
                                         </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
                         </Table>
+                        <Menu
+                            anchorEl={anchorEl}
+                            open={Boolean(anchorEl)}
+                            onClose={handleClose}
+                        >
+                            <MenuItem onClick={() => handleSingleMemberView(selectedMobile)}>View</MenuItem>
+                            {/* Uncomment below to add a delete option */}
+                            {/* <MenuItem onClick={() => handleDelete(selectedMobile)}>Delete</MenuItem> */}
+                        </Menu>
                     </TableContainer>
                 </Paper>
             </Container>

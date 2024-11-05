@@ -1,6 +1,6 @@
 'use client'
 import { Avatar, AvatarGroup, Box, Button, Container, Divider, Grid, IconButton, InputAdornment, ListItemIcon, TextField, Tooltip, Typography } from '@mui/material';
-import React from 'react'
+import React, { useEffect } from 'react'
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,25 +11,28 @@ import MenuItem from '@mui/material/MenuItem';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import { usePathname } from 'next/navigation';
+import { setTopbarRoute } from '@/store/slices/topbarSlice';
 
 const menuItems = [
-    "Dashboard",
-    "Register New Membership",
-    "Members",
-    "Transaction History",
-    "Renew Membership",
-    "Cashback",
-    "Appointments",
-    "Reports"
+    { title: "Dashboard", route: "/dashboard" },
+    { title: "Register New Membership", route: "/newmember" },
+    { title: "Members", route: "/viewMembers" },
+    { title: "Transaction History", route: "/transactions" },
+    { title: "Renew Membership", route: "/renew" },
+    { title: "Cashback", route: "/cashback" },
+    { title: "Appointments", route: "/appointments" },
+    { title: "Reports", route: "/reports" }
 ];
-
-
+ 
 
 
 const TopBar = () => {
 
-    const { title } = useSelector((state: RootState) => state.topbar);
-    const { handleSelectTitile } = topbarHooks();
+
+
+    const { title,topbarRoute } = useSelector((state: RootState) => state.topbar);
+    const {handleSelectTitle} = topbarHooks();
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -39,6 +42,22 @@ const TopBar = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+const pathName = usePathname();
+ 
+const dispatch=useDispatch()
+useEffect(() => {
+    console.log("From TopBar")
+}, [])
+
+useEffect(() => {
+    const activeItem = menuItems.find((item) =>
+        pathName.includes(item.route)
+    );
+
+    if (activeItem) {
+        dispatch(setTopbarRoute(activeItem?.route))
+    }
+}, [pathName]);
 
     return (
         <section>
@@ -291,22 +310,22 @@ const TopBar = () => {
                     <Grid container spacing={3} justifyContent="start">
                         {menuItems?.map((item, index) => (
                             <Grid item key={index}>
-                                <Button onClick={() => { handleSelectTitile(item) }} sx={{
+                                <Button onClick={() => { handleSelectTitle(item) }} sx={{
                                     fontWeight: 400,
                                     fontSize: "15px",
                                     lineHeight: "20px",
                                     padding:'12px 24px',
                                     textTransform: "capitalize",
-                                    background: item === title ? "#03C136" : "transparent",
-                                    color: item === title ? "#FFFFFF" : "#000000CC",
+                                    background: item.route === topbarRoute ? "#03C136" : "transparent",
+                                    color: item.route === topbarRoute ? "#FFFFFF" : "#000000CC",
                                     borderTopLeftRadius: "12px",
                                     borderTopRightRadius: "12px",
                                     "&:hover": {
-                                        background: item === title ? "#03C136" : "rgba(3, 193, 54, 0.1)",
-                                        color: item === title ? "#FFFFFF" : "#000000CC"
+                                        background: item.route === topbarRoute ? "#03C136" : "rgba(3, 193, 54, 0.1)",
+                                        color: item.route === topbarRoute ? "#FFFFFF" : "#000000CC"
                                     }
                                 }}>
-                                    {item}
+                                    {item.title}
                                 </Button>
                             </Grid>
                         ))}

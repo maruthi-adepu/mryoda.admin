@@ -18,7 +18,6 @@ const page = () => {
 
     return (
         <>
-        <TopBar/>
             <section className='grid gap-[16px] bg-[#FFFFFF]'>
 
                 <Container maxWidth="xl">

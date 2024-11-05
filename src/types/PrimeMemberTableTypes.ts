@@ -16,7 +16,8 @@ export interface Member {
     updated_at: string;
     deleted_at: string | null;
     isMember: string;
-    expires_at:string
+    expires_at:string;
+    start_at:string;
   }
 
 

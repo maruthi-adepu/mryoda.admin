@@ -6,7 +6,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Container, Box, TextField, MenuItem, Select, Button, IconButton, Avatar, Typography, Grid, Tooltip, Menu } from '@mui/material';
+import { Container, Box, TextField, MenuItem, Select, Button, IconButton, Avatar, Typography, Grid, Tooltip, Menu, Skeleton } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -295,7 +295,19 @@ export default function ViewMembersTable() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                            {viewAllMembers?.data?.length === 0 ? (
+                            {isLoading?
+                                (
+                                    // Render skeleton rows when loading
+                                    [...Array(7)].map((_, index) => (
+                                        <TableRow key={index}>
+                                            {columns.map((col) => (
+                                                <TableCell key={col.id}>
+                                                    <Skeleton variant="text" width="80%" height={50} />
+                                                </TableCell>
+                                            ))}
+                                        </TableRow>
+                                    ))
+                                ): viewAllMembers?.data?.length === 0 ? (
                             <TableRow>
               <TableCell colSpan={8} sx={{ textAlign: "center", padding: 2 }}>
              <Typography variant="h6" sx={{ marginY: 2 }}>
@@ -316,10 +328,10 @@ export default function ViewMembersTable() {
       </TableCell>
       <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>{row?.mobile}</TableCell>
       <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>
-        {moment(row?.created_at).format("DD/MM/YYYY")}
+      {row?.start_at ? moment(row.start_at).format("DD/MM/YYYY") : "-"}
       </TableCell>
       <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>
-        {moment(row?.updated_at).format("DD/MM/YYYY")}
+      {row?.expires_at ? moment(row?.expires_at).format("DD/MM/YYYY") : "-"}
       </TableCell>
       <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>{"N/A"}</TableCell>
       <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>
@@ -378,7 +390,7 @@ export default function ViewMembersTable() {
       justifyContent="center" 
       alignItems="center" 
     >
-       {viewAllMembers?.data?.length >0 &&   <PaginationAllMembers viewAllMembers={viewAllMembers}  />}
+       {viewAllMembers?.data?.length>0 &&   <PaginationAllMembers viewAllMembers={viewAllMembers}  />}
       </Box>
             </>
     );

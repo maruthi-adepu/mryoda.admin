@@ -39,9 +39,6 @@ const page = () => {
                                         <Typography gutterBottom variant="h5" component="div" style={{ fontWeight: 400, color: '#000000CC', fontSize: '17px' }}>
                                             {card.title}
                                         </Typography>
-                                        <Typography gutterBottom variant="h6" component="div" className='cursor-pointer'>
-                                            <MoreHorizIcon />
-                                        </Typography>
                                     </Box>
                                     
                                     <Typography variant="body2" sx={{ color: 'text.secondary'}} style={{ fontWeight: 700, color: '#000000CC', fontSize: '34px' }}>

@@ -78,11 +78,15 @@ export default function ViewMembersTable() {
     useEffect(() => {
         const handler = setTimeout(() => {
           setDebounceOrdersearch(searchName);
-        }, 500);
+        }, 300);
         return () => {
           clearTimeout(handler);
         };
       }, [searchName]);
+
+      useEffect(()=>{
+        dispatch(setSearchName(""))
+      },[])
    
     return (
         <>
@@ -94,6 +98,7 @@ export default function ViewMembersTable() {
                             {/* Search Input */}
                             <Grid item xs={12} sm={6} md={4} lg={3.2}>
                                 <TextField
+                                value={searchName}
                                     placeholder="Enter member name"
                                     variant="outlined"
                                     onChange={(e) => {
@@ -358,7 +363,7 @@ export default function ViewMembersTable() {
             onClick={(event) => {
               handleClick(event, row.mobile);
               dispatch(setMobileNumber(row?.mobile));
-              dispatch(setFullName(row?.first_name ? row?.first_name : "" + " " + row?.last_name ? row?.last_name : ""))
+              dispatch(setFullName((row?.first_name ? row?.first_name : "") + " " + (row?.last_name ? row?.last_name : "")))
               setName(row?.first_name);
             }} // Assuming you have handleClick for menu
           >

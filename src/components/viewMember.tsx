@@ -248,7 +248,7 @@ const ViewMemberDetails = () => {
                                 align="left"
                                 sx={{ padding: 0, fontWeight: 700, fontSize: "15px", lineHeight: "20px", color: "#FFFFFF", paddingY: 0.8, border: 'none' }}
                               >
-                                ₹{item?.total_rewards}
+                                ₹{item?.total_rewards?.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                               </TableCell>
                             </TableRow>
 

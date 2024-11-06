@@ -25,7 +25,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { setMobileNumber, setPage, setPageSize, setSearchName } from '@/store/slices/viewMemberDetailsSlice';
+import { setFullName, setMobileNumber, setPage, setPageSize, setSearchName } from '@/store/slices/viewMemberDetailsSlice';
 
 
 
@@ -49,13 +49,11 @@ export default function ViewMembersTable() {
     const [selectedDate, setSelectedDate] = useState<string | null | undefined>(null);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [name,setName]=useState<string | null | undefined>("")
-    console.log("selectedmobilenumber")
  
-    const { page, pageSize ,mobileNumber,searchName} = useSelector((state: RootState) => state.viewMemberDetails);
+    const { page, pageSize ,mobileNumber,searchName,fullName} = useSelector((state: RootState) => state.viewMemberDetails);
     const [debounceOrderSearch, setDebounceOrdersearch] = useState<
     string | null | undefined
   >(searchName);
-    console.log(mobileNumber,"mmmm")
     const dispatch=useDispatch()
     const router=useRouter()
     const payload = {
@@ -80,13 +78,16 @@ export default function ViewMembersTable() {
     useEffect(() => {
         const handler = setTimeout(() => {
           setDebounceOrdersearch(searchName);
-        }, 500);
+        }, 300);
         return () => {
           clearTimeout(handler);
         };
       }, [searchName]);
-   
 
+      useEffect(()=>{
+        dispatch(setSearchName(""))
+      },[])
+   
     return (
         <>
             <ViewPrimeMembersInfo />
@@ -97,6 +98,7 @@ export default function ViewMembersTable() {
                             {/* Search Input */}
                             <Grid item xs={12} sm={6} md={4} lg={3.2}>
                                 <TextField
+                                value={searchName}
                                     placeholder="Enter member name"
                                     variant="outlined"
                                     onChange={(e) => {
@@ -320,7 +322,7 @@ export default function ViewMembersTable() {
                           <TableRow key={index}>
         <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Image src={profileIcon} alt='profileIcon' />
+          <Image src={row?.profile_pic ? row?.profile_pic :profileIcon} alt='profileIcon' width={20} height={20} className='h-6 w-6 rounded-full'/>
           <Typography sx={{ marginLeft: 1, color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>
             {row?.first_name ? row?.first_name : "N/A"} {row?.last_name ? row?.last_name : ""}
            </Typography>
@@ -333,10 +335,10 @@ export default function ViewMembersTable() {
       <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>
       {row?.expires_at ? moment(row?.expires_at).format("DD/MM/YYYY") : "-"}
       </TableCell>
-      <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>{"N/A"}</TableCell>
+      <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>{row?.isMember==="true" ?  <span>₹{row?.total_rewards?.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span> : "-"}</TableCell>
       <TableCell sx={{ color: '#61626A', fontWeight: 700, fontSize: '11.9px', lineHeight: '15.83px' }}>
         <span>
-          {row?.isMember === "true" ? (
+          {row?.isMember==="false" && row?.expires_at===null ? "New": row?.isMember === "true" ? (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
               <svg width="7" height="7" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="3.5" cy="3.5" r="3" fill="#0DC44A" />
@@ -361,6 +363,7 @@ export default function ViewMembersTable() {
             onClick={(event) => {
               handleClick(event, row.mobile);
               dispatch(setMobileNumber(row?.mobile));
+              dispatch(setFullName((row?.first_name ? row?.first_name : "") + " " + (row?.last_name ? row?.last_name : "")))
               setName(row?.first_name);
             }} // Assuming you have handleClick for menu
           >
